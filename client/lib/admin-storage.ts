@@ -98,6 +98,23 @@ export interface PopupData {
   buttonLink: string;
   image?: string;
   type: "view-product-details" | "exit-intent";
+  // Additional fields for view-product-details popup
+  useHeroTitle?: boolean; // If true, use adminData.hero.title instead of title
+  showImages?: boolean;
+  showRating?: boolean;
+  showPricing?: boolean;
+  showPiecesCount?: boolean;
+  piecesCount?: number;
+  piecesCountTitle?: string;
+  piecesCountSubtitle?: string;
+  showMoreDetails?: boolean;
+  moreDetailsTitle?: string;
+  moreDetails?: string[];
+  primaryButtonText?: string;
+  primaryButtonLink?: string;
+  secondaryButtonText?: string;
+  subscribeText?: string;
+  walmartText?: string;
 }
 
 export interface AdminData {
