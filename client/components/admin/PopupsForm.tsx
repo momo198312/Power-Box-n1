@@ -30,25 +30,25 @@ export function PopupsForm() {
       const popupsData = adminData.popups || [];
 
       // Check if we have required popup types, if not create them
-      const buttonPopup = popupsData.find((p) => p.type === "button-triggered");
+      const viewDetailsPopup = popupsData.find((p) => p.type === "view-product-details");
       const exitPopup = popupsData.find((p) => p.type === "exit-intent");
 
       const requiredPopups = [];
 
-      if (!buttonPopup) {
+      if (!viewDetailsPopup) {
         requiredPopups.push({
-          id: "button-popup",
-          title: "Special Offer!",
+          id: "view-details-popup",
+          title: "Nutritious Snack Box Details",
           description:
-            "Get 10% off your first order when you subscribe to our newsletter.",
-          buttonText: "Get My Discount",
+            "Get detailed information about our 42-count nutritious snack box with premium breakfast bars and delicious chips.",
+          buttonText: "Buy Now on Walmart",
           buttonLink:
-            "mailto:subscribe@example.com?subject=Newsletter%20Subscription",
+            "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
           image: "",
-          type: "button-triggered" as const,
+          type: "view-product-details" as const,
         });
       } else {
-        requiredPopups.push(buttonPopup);
+        requiredPopups.push(viewDetailsPopup);
       }
 
       if (!exitPopup) {
@@ -102,11 +102,11 @@ export function PopupsForm() {
     );
   };
 
-  const getPopupByType = (type: "button-triggered" | "exit-intent") => {
+  const getPopupByType = (type: "view-product-details" | "exit-intent") => {
     return popups.find((popup) => popup.type === type);
   };
 
-  const buttonPopup = getPopupByType("button-triggered");
+  const viewDetailsPopup = getPopupByType("view-product-details");
   const exitPopup = getPopupByType("exit-intent");
 
   const PopupPreview = ({ popup }: { popup: PopupData }) => (
@@ -150,7 +150,7 @@ export function PopupsForm() {
     <>
       <SectionHeader
         title="Popups Management"
-        description="Configure your marketing popups: button-triggered popups for engagement and exit-intent popups for retention."
+        description="Configure your marketing popups: view product details popup for product information and exit-intent popups for retention."
         actions={
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Megaphone className="h-4 w-4" />
@@ -159,14 +159,14 @@ export function PopupsForm() {
         }
       />
 
-      <Tabs defaultValue="button-triggered" className="space-y-6">
+      <Tabs defaultValue="view-product-details" className="space-y-6">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger
-            value="button-triggered"
+            value="view-product-details"
             className="flex items-center gap-2"
           >
-            <MousePointer className="h-4 w-4" />
-            Button-Triggered Popup
+            <Eye className="h-4 w-4" />
+            View Product Details Popup
           </TabsTrigger>
           <TabsTrigger value="exit-intent" className="flex items-center gap-2">
             <ExternalLink className="h-4 w-4" />
@@ -174,23 +174,23 @@ export function PopupsForm() {
           </TabsTrigger>
         </TabsList>
 
-        {/* Button-Triggered Popup */}
-        <TabsContent value="button-triggered">
+        {/* View Product Details Popup */}
+        <TabsContent value="view-product-details">
           <FormSection
-            title="Button-Triggered Popup"
-            description="This popup appears when users click a specific button or trigger. Great for special offers, newsletter signups, or detailed information."
+            title="View Product Details Popup"
+            description="This popup appears when users click the 'View Product Details' button. Shows comprehensive product information, pricing, and purchase options."
           >
-            {buttonPopup && (
+            {viewDetailsPopup && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <MousePointer className="h-4 w-4" />
-                    <span>Triggered by button clicks</span>
+                    <Eye className="h-4 w-4" />
+                    <span>Triggered by 'View Product Details' button</span>
                   </div>
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setPreviewPopup("button-triggered")}
+                    onClick={() => setPreviewPopup("view-product-details")}
                   >
                     <Eye className="h-4 w-4 mr-2" />
                     Preview
@@ -199,50 +199,50 @@ export function PopupsForm() {
 
                 <TextField
                   label="Popup Title"
-                  value={buttonPopup.title}
+                  value={viewDetailsPopup.title}
                   onChange={(value) =>
-                    updatePopup(buttonPopup.id, "title", value)
+                    updatePopup(viewDetailsPopup.id, "title", value)
                   }
-                  placeholder="Special Offer!"
+                  placeholder="Nutritious Snack Box Details"
                   required
                 />
 
                 <TextAreaField
                   label="Popup Description"
-                  value={buttonPopup.description}
+                  value={viewDetailsPopup.description}
                   onChange={(value) =>
-                    updatePopup(buttonPopup.id, "description", value)
+                    updatePopup(viewDetailsPopup.id, "description", value)
                   }
-                  placeholder="Get 10% off your first order when you subscribe to our newsletter."
+                  placeholder="Get detailed information about our 42-count nutritious snack box with premium breakfast bars and delicious chips."
                   rows={3}
                   required
                 />
 
                 <TextField
                   label="Button Text"
-                  value={buttonPopup.buttonText}
+                  value={viewDetailsPopup.buttonText}
                   onChange={(value) =>
-                    updatePopup(buttonPopup.id, "buttonText", value)
+                    updatePopup(viewDetailsPopup.id, "buttonText", value)
                   }
-                  placeholder="Get My Discount"
+                  placeholder="Buy Now on Walmart"
                   required
                 />
 
                 <TextField
                   label="Button Link/Action"
-                  value={buttonPopup.buttonLink}
+                  value={viewDetailsPopup.buttonLink}
                   onChange={(value) =>
-                    updatePopup(buttonPopup.id, "buttonLink", value)
+                    updatePopup(viewDetailsPopup.id, "buttonLink", value)
                   }
-                  placeholder="mailto:subscribe@example.com or https://signup-page.com"
+                  placeholder="https://www.walmart.com/ip/product-page"
                   required
                 />
 
                 <ImageUpload
                   label="Popup Image (Optional)"
-                  value={buttonPopup.image || ""}
+                  value={viewDetailsPopup.image || ""}
                   onChange={(value) =>
-                    updatePopup(buttonPopup.id, "image", value)
+                    updatePopup(viewDetailsPopup.id, "image", value)
                   }
                   placeholder="Upload an image for the popup"
                 />
@@ -252,12 +252,10 @@ export function PopupsForm() {
                     Usage Tips:
                   </div>
                   <ul className="text-sm text-blue-800 space-y-1">
-                    <li>• Use compelling titles that create urgency</li>
-                    <li>• Keep descriptions concise but persuasive</li>
-                    <li>
-                      • For email links, use format: mailto:email@domain.com
-                    </li>
-                    <li>• For web links, include full URL with https://</li>
+                    <li>• Use descriptive titles that clearly indicate product details</li>
+                    <li>• Include comprehensive product information in the description</li>
+                    <li>• Use direct product or purchase links for the button action</li>
+                    <li>• Add product images to help users visualize the items</li>
                   </ul>
                 </div>
               </div>
@@ -377,7 +375,7 @@ export function PopupsForm() {
       {previewPopup && (
         <PopupPreview
           popup={
-            previewPopup === "button-triggered" ? buttonPopup! : exitPopup!
+            previewPopup === "view-product-details" ? viewDetailsPopup! : exitPopup!
           }
         />
       )}
