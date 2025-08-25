@@ -162,7 +162,8 @@ export function ImageUpload({
       // Generate a unique path for the image
       const fileExt = file.name.split(".").pop();
       const uniqueId = Math.random().toString(36).substring(2, 11);
-      const path = `admin_${Date.now()}_${uniqueId}`;
+      const timestamp = Date.now();
+      const path = `admin_${timestamp}_${uniqueId}`;
 
       console.log("Uploading file:", file.name, "to path:", path);
 
@@ -170,19 +171,20 @@ export function ImageUpload({
       const uploadedUrl = await uploadImage(file, path);
 
       if (uploadedUrl) {
-        console.log("Upload successful, URL:", uploadedUrl);
-        onChange(uploadedUrl);
+        // Add cache-busting parameter for cross-browser consistency
+        const urlWithCacheBusting = `${uploadedUrl}?v=${timestamp}`;
+        console.log("Upload successful, URL with cache-busting:", urlWithCacheBusting);
+        onChange(urlWithCacheBusting);
       } else {
         console.error("Upload failed: uploadImage returned null");
-        // Fallback to blob URL for local preview
-        const blobUrl = URL.createObjectURL(file);
-        onChange(blobUrl);
+        throw new Error("Image upload to Supabase failed - cross-browser sync requires cloud storage");
       }
     } catch (error) {
       console.error("Upload error:", error);
-      // Fallback to blob URL for local preview
-      const blobUrl = URL.createObjectURL(file);
-      onChange(blobUrl);
+      setIsUploading(false);
+      // Don't create blob URLs - they don't work across browsers
+      alert("Image upload failed. Please try again or check your internet connection. Cross-browser sync requires successful upload to cloud storage.");
+      return;
     } finally {
       setIsUploading(false);
     }
