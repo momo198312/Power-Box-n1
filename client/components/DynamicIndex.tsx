@@ -133,6 +133,11 @@ export default function DynamicIndex() {
     setIsModalOpen(true);
   };
 
+  const handleViewDetailsClick = () => {
+    console.log("View details clicked - opening popup");
+    setShowViewDetailsPopup(true);
+  };
+
 
   const scrollToProduct = () => {
     document
