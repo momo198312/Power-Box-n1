@@ -295,7 +295,7 @@ export default function DynamicIndex() {
 
                 {/* Primary CTA */}
                 <Button
-                  onClick={handleCardClick}
+                  onClick={handleViewDetailsClick}
                   size="lg"
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 sm:py-4 text-lg sm:text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 mb-3 sm:mb-4 touch-manipulation"
                 >
@@ -414,7 +414,7 @@ export default function DynamicIndex() {
             {/* CTA after Benefits */}
             <div className="text-center mt-8 sm:mt-12">
               <Button
-                onClick={handleCardClick}
+                onClick={handleViewDetailsClick}
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
               >
@@ -490,7 +490,7 @@ export default function DynamicIndex() {
               {/* CTA after Trust */}
               <div className="text-center mt-8">
                 <Button
-                  onClick={handleCardClick}
+                  onClick={handleViewDetailsClick}
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-gray-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
                 >
@@ -540,7 +540,7 @@ export default function DynamicIndex() {
             {/* CTA after Gallery */}
             <div className="text-center mt-8 sm:mt-12">
               <Button
-                onClick={handleCardClick}
+                onClick={handleViewDetailsClick}
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
               >
@@ -655,7 +655,7 @@ export default function DynamicIndex() {
 
                 {/* Enhanced CTA Button */}
                 <Button
-                  onClick={handleCardClick}
+                  onClick={handleViewDetailsClick}
                   size="lg"
                   className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 touch-manipulation mb-6"
                 >
