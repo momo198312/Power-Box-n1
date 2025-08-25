@@ -18,7 +18,6 @@ export interface HeroData {
   stockText: string;
   primaryButtonText: string;
   secondaryButtonText: string;
-  specialOfferButtonText: string;
   productImages: string[];
 }
 
@@ -140,7 +139,6 @@ export const defaultAdminData: AdminData = {
     stockText: "⚡ Limited stock available",
     primaryButtonText: "View Product Details",
     secondaryButtonText: "Learn More About This Product",
-    specialOfferButtonText: "🎁 Special Offer Available",
     productImages: [
       "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F79d471e5bc56457eb2c3b1c3eb6586ae?format=webp&width=800",
       "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F05b5599b733643de9ed02db80950feb9?format=webp&width=800",
