@@ -930,6 +930,65 @@ export default function DynamicIndex() {
         {/* Sticky CTA for Mobile */}
         <StickyCTA onClick={handleCardClick} />
 
+        {/* View Product Details Popup */}
+        {showViewDetailsPopup && (
+          <Dialog open={showViewDetailsPopup} onOpenChange={setShowViewDetailsPopup}>
+            <DialogPortal>
+              <DialogOverlay />
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>
+                    {
+                      adminData.popups.find(
+                        (p) => p.type === "view-product-details",
+                      )?.title
+                    }
+                  </DialogTitle>
+                  <DialogDescription>
+                    {
+                      adminData.popups.find(
+                        (p) => p.type === "view-product-details",
+                      )?.description
+                    }
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  {adminData.popups.find((p) => p.type === "view-product-details")
+                    ?.image && (
+                    <img
+                      src={
+                        adminData.popups.find(
+                          (p) => p.type === "view-product-details",
+                        )?.image
+                      }
+                      alt="Product Details"
+                      className="w-full h-32 object-cover rounded-lg"
+                    />
+                  )}
+                  <Button
+                    onClick={() => {
+                      const popup = adminData.popups.find(
+                        (p) => p.type === "view-product-details",
+                      );
+                      if (popup?.buttonLink) {
+                        window.open(popup.buttonLink, "_blank");
+                      }
+                      setShowViewDetailsPopup(false);
+                    }}
+                    className="w-full"
+                  >
+                    {
+                      adminData.popups.find(
+                        (p) => p.type === "view-product-details",
+                      )?.buttonText
+                    }
+                  </Button>
+                </div>
+              </DialogContent>
+            </DialogPortal>
+          </Dialog>
+        )}
+
         {/* Exit Intent Popup */}
         {showExitIntent && (
           <ExitIntentPopup
