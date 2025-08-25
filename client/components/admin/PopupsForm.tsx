@@ -33,7 +33,9 @@ export function PopupsForm() {
       const popupsData = adminData.popups || [];
 
       // Check if we have required popup types, if not create them
-      const viewDetailsPopup = popupsData.find((p) => p.type === "view-product-details");
+      const viewDetailsPopup = popupsData.find(
+        (p) => p.type === "view-product-details",
+      );
       const exitPopup = popupsData.find((p) => p.type === "exit-intent");
 
       const requiredPopups = [];
@@ -42,9 +44,11 @@ export function PopupsForm() {
         requiredPopups.push({
           id: "view-details-popup",
           title: "Product Details",
-          description: "View detailed product information, pricing, and purchase options for this 42-piece snack collection.",
+          description:
+            "View detailed product information, pricing, and purchase options for this 42-piece snack collection.",
           buttonText: "Buy Now on Walmart",
-          buttonLink: "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+          buttonLink:
+            "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
           image: "",
           type: "view-product-details" as const,
           useHeroTitle: true,
@@ -62,13 +66,14 @@ export function PopupsForm() {
             "Packed with a variety of breakfast bars and savory snacks for daily energy",
             "Individually packaged snacks for convenient grab-and-go options",
             "Ideal for adults, teens, and college students alike",
-            "Arrives with a heartwarming greeting card for a personal touch"
+            "Arrives with a heartwarming greeting card for a personal touch",
           ],
           primaryButtonText: "Buy Now on Walmart",
-          primaryButtonLink: "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+          primaryButtonLink:
+            "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
           secondaryButtonText: "Continue Browsing",
           subscribeText: "✓ Subscribe & Save available",
-          walmartText: "✓ Walmart+ offer eligible"
+          walmartText: "✓ Walmart+ offer eligible",
         });
       } else {
         requiredPopups.push(viewDetailsPopup);
@@ -113,11 +118,7 @@ export function PopupsForm() {
     setPopups(adminData.popups);
   };
 
-  const updatePopup = (
-    popupId: string,
-    field: keyof PopupData,
-    value: any,
-  ) => {
+  const updatePopup = (popupId: string, field: keyof PopupData, value: any) => {
     setPopups((prev) =>
       prev.map((popup) =>
         popup.id === popupId ? { ...popup, [field]: value } : popup,
@@ -294,7 +295,11 @@ export function PopupsForm() {
                         label="Subscribe & Save Text"
                         value={viewDetailsPopup.subscribeText || ""}
                         onChange={(value) =>
-                          updatePopup(viewDetailsPopup.id, "subscribeText", value)
+                          updatePopup(
+                            viewDetailsPopup.id,
+                            "subscribeText",
+                            value,
+                          )
                         }
                         placeholder="✓ Subscribe & Save available"
                       />
@@ -335,7 +340,11 @@ export function PopupsForm() {
                         label="Pieces Count Title"
                         value={viewDetailsPopup.piecesCountTitle || ""}
                         onChange={(value) =>
-                          updatePopup(viewDetailsPopup.id, "piecesCountTitle", value)
+                          updatePopup(
+                            viewDetailsPopup.id,
+                            "piecesCountTitle",
+                            value,
+                          )
                         }
                         placeholder="Pieces Count:"
                       />
@@ -344,7 +353,11 @@ export function PopupsForm() {
                         label="Pieces Count Subtitle"
                         value={viewDetailsPopup.piecesCountSubtitle || ""}
                         onChange={(value) =>
-                          updatePopup(viewDetailsPopup.id, "piecesCountSubtitle", value)
+                          updatePopup(
+                            viewDetailsPopup.id,
+                            "piecesCountSubtitle",
+                            value,
+                          )
                         }
                         placeholder="Perfect variety for extended enjoyment"
                       />
@@ -366,7 +379,11 @@ export function PopupsForm() {
                         label="More Details Title"
                         value={viewDetailsPopup.moreDetailsTitle || ""}
                         onChange={(value) =>
-                          updatePopup(viewDetailsPopup.id, "moreDetailsTitle", value)
+                          updatePopup(
+                            viewDetailsPopup.id,
+                            "moreDetailsTitle",
+                            value,
+                          )
                         }
                         placeholder="More Details"
                       />
@@ -391,9 +408,16 @@ export function PopupsForm() {
                 >
                   <TextField
                     label="Primary Button Text"
-                    value={viewDetailsPopup.primaryButtonText || viewDetailsPopup.buttonText}
+                    value={
+                      viewDetailsPopup.primaryButtonText ||
+                      viewDetailsPopup.buttonText
+                    }
                     onChange={(value) =>
-                      updatePopup(viewDetailsPopup.id, "primaryButtonText", value)
+                      updatePopup(
+                        viewDetailsPopup.id,
+                        "primaryButtonText",
+                        value,
+                      )
                     }
                     placeholder="Buy Now on Walmart"
                     required
@@ -401,9 +425,16 @@ export function PopupsForm() {
 
                   <TextField
                     label="Primary Button Link"
-                    value={viewDetailsPopup.primaryButtonLink || viewDetailsPopup.buttonLink}
+                    value={
+                      viewDetailsPopup.primaryButtonLink ||
+                      viewDetailsPopup.buttonLink
+                    }
                     onChange={(value) =>
-                      updatePopup(viewDetailsPopup.id, "primaryButtonLink", value)
+                      updatePopup(
+                        viewDetailsPopup.id,
+                        "primaryButtonLink",
+                        value,
+                      )
                     }
                     placeholder="https://www.walmart.com/ip/product-page"
                     required
@@ -413,7 +444,11 @@ export function PopupsForm() {
                     label="Secondary Button Text"
                     value={viewDetailsPopup.secondaryButtonText || ""}
                     onChange={(value) =>
-                      updatePopup(viewDetailsPopup.id, "secondaryButtonText", value)
+                      updatePopup(
+                        viewDetailsPopup.id,
+                        "secondaryButtonText",
+                        value,
+                      )
                     }
                     placeholder="Continue Browsing"
                   />
@@ -459,10 +494,21 @@ export function PopupsForm() {
                     Configuration Tips:
                   </div>
                   <ul className="text-sm text-blue-800 space-y-1">
-                    <li>• Enable "Use Hero Title" to automatically use the main product title</li>
-                    <li>• Toggle content sections to match the frontend modal exactly</li>
-                    <li>• More Details section supports multiple bullet points</li>
-                    <li>• Primary button leads to purchase, secondary button closes popup</li>
+                    <li>
+                      • Enable "Use Hero Title" to automatically use the main
+                      product title
+                    </li>
+                    <li>
+                      • Toggle content sections to match the frontend modal
+                      exactly
+                    </li>
+                    <li>
+                      • More Details section supports multiple bullet points
+                    </li>
+                    <li>
+                      • Primary button leads to purchase, secondary button
+                      closes popup
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -582,7 +628,9 @@ export function PopupsForm() {
       {previewPopup && (
         <PopupPreview
           popup={
-            previewPopup === "view-product-details" ? viewDetailsPopup! : exitPopup!
+            previewPopup === "view-product-details"
+              ? viewDetailsPopup!
+              : exitPopup!
           }
         />
       )}

@@ -383,10 +383,13 @@ export const defaultAdminData: AdminData = {
     {
       id: "view-details-popup",
       title: "Product Details", // This will be overridden by hero title
-      description: "View detailed product information, pricing, and purchase options for this 42-piece snack collection.",
+      description:
+        "View detailed product information, pricing, and purchase options for this 42-piece snack collection.",
       buttonText: "Buy Now on Walmart",
-      buttonLink: "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
-      image: "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F79d471e5bc56457eb2c3b1c3eb6586ae?format=webp&width=400",
+      buttonLink:
+        "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+      image:
+        "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F79d471e5bc56457eb2c3b1c3eb6586ae?format=webp&width=400",
       type: "view-product-details",
       useHeroTitle: true,
       showImages: true,
@@ -403,13 +406,14 @@ export const defaultAdminData: AdminData = {
         "Packed with a variety of breakfast bars and savory snacks for daily energy",
         "Individually packaged snacks for convenient grab-and-go options",
         "Ideal for adults, teens, and college students alike",
-        "Arrives with a heartwarming greeting card for a personal touch"
+        "Arrives with a heartwarming greeting card for a personal touch",
       ],
       primaryButtonText: "Buy Now on Walmart",
-      primaryButtonLink: "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+      primaryButtonLink:
+        "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
       secondaryButtonText: "Continue Browsing",
       subscribeText: "✓ Subscribe & Save available",
-      walmartText: "✓ Walmart+ offer eligible"
+      walmartText: "✓ Walmart+ offer eligible",
     },
     {
       id: "exit-popup",

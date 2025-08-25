@@ -218,7 +218,6 @@ export function HeroForm() {
             placeholder="Learn More About This Product"
             required
           />
-
         </div>
       </FormSection>
 

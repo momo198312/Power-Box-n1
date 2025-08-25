@@ -138,7 +138,6 @@ export default function DynamicIndex() {
     setShowViewDetailsPopup(true);
   };
 
-
   const scrollToProduct = () => {
     document
       .getElementById("product-section")
@@ -311,7 +310,6 @@ export default function DynamicIndex() {
                 >
                   {adminData.hero.secondaryButtonText}
                 </Button>
-
               </div>
 
               {/* Right Column - Product Image */}
@@ -926,13 +924,15 @@ export default function DynamicIndex() {
           </DialogPortal>
         </Dialog>
 
-
         {/* Sticky CTA for Mobile */}
         <StickyCTA onClick={handleCardClick} />
 
         {/* View Product Details Popup - Identical to Modal */}
         {showViewDetailsPopup && (
-          <Dialog open={showViewDetailsPopup} onOpenChange={setShowViewDetailsPopup}>
+          <Dialog
+            open={showViewDetailsPopup}
+            onOpenChange={setShowViewDetailsPopup}
+          >
             <DialogPortal>
               <DialogOverlay />
               <DialogPrimitive.Content className="fixed inset-4 z-[1001] mx-auto my-auto w-auto h-auto max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)] sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-[640px] sm:h-[90vh] sm:max-h-[800px] sm:translate-x-[-50%] sm:translate-y-[-50%] bg-white border-0 rounded-2xl sm:rounded-2xl shadow-2xl p-0 overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-200">
@@ -948,7 +948,9 @@ export default function DynamicIndex() {
                   className="h-full flex flex-col"
                 >
                   {(() => {
-                    const popup = adminData.popups.find((p) => p.type === "view-product-details");
+                    const popup = adminData.popups.find(
+                      (p) => p.type === "view-product-details",
+                    );
                     if (!popup) return null;
 
                     return (
@@ -957,7 +959,9 @@ export default function DynamicIndex() {
                         <div className="relative flex-shrink-0 bg-white border-b border-gray-200 p-3 sm:p-6">
                           <DialogHeader>
                             <DialogTitle className="text-lg sm:text-2xl font-bold text-gray-900 leading-tight pr-10 sm:pr-12">
-                              {popup.useHeroTitle ? adminData.hero.title : popup.title}
+                              {popup.useHeroTitle
+                                ? adminData.hero.title
+                                : popup.title}
                             </DialogTitle>
                             <DialogDescription className="text-sm sm:text-sm text-gray-600 mt-2 pr-8 sm:pr-0">
                               {popup.description}
@@ -986,10 +990,20 @@ export default function DynamicIndex() {
                           {popup.showImages && (
                             <div className="relative mb-4 sm:mb-6">
                               <div className="relative overflow-hidden rounded-xl shadow-lg bg-gray-50 mx-auto max-w-[280px] sm:max-w-none">
-                                {adminData.hero.productImages[currentImageIndex] && (
+                                {adminData.hero.productImages[
+                                  currentImageIndex
+                                ] && (
                                   <img
-                                    src={adminData.hero.productImages[currentImageIndex]}
-                                    alt={popup.useHeroTitle ? adminData.hero.title : popup.title}
+                                    src={
+                                      adminData.hero.productImages[
+                                        currentImageIndex
+                                      ]
+                                    }
+                                    alt={
+                                      popup.useHeroTitle
+                                        ? adminData.hero.title
+                                        : popup.title
+                                    }
                                     className="w-full h-40 sm:h-64 object-contain"
                                     loading="lazy"
                                   />
@@ -1028,7 +1042,8 @@ export default function DynamicIndex() {
                                 ))}
                               </div>
                               <span className="ml-2 text-sm sm:text-sm text-gray-700 font-medium">
-                                {adminData.hero.rating} ⭐ ({adminData.hero.reviewCount} reviews)
+                                {adminData.hero.rating} ⭐ (
+                                {adminData.hero.reviewCount} reviews)
                               </span>
                             </div>
                           )}
@@ -1074,25 +1089,30 @@ export default function DynamicIndex() {
                           )}
 
                           {/* More Details Section */}
-                          {popup.showMoreDetails && popup.moreDetails && popup.moreDetails.length > 0 && (
-                            <div className="mb-4 sm:mb-6">
-                              <h3 className="text-lg font-bold text-gray-900 mb-3 text-center sm:text-left">
-                                {popup.moreDetailsTitle || "More Details"}
-                              </h3>
-                              <div className="space-y-2">
-                                {popup.moreDetails.map((detail, index) => (
-                                  <div key={index} className="flex items-start gap-2 sm:gap-3">
-                                    <div className="bg-green-100 rounded-full p-1 mt-0.5 flex-shrink-0">
-                                      <Check className="h-3 w-3 text-green-600" />
+                          {popup.showMoreDetails &&
+                            popup.moreDetails &&
+                            popup.moreDetails.length > 0 && (
+                              <div className="mb-4 sm:mb-6">
+                                <h3 className="text-lg font-bold text-gray-900 mb-3 text-center sm:text-left">
+                                  {popup.moreDetailsTitle || "More Details"}
+                                </h3>
+                                <div className="space-y-2">
+                                  {popup.moreDetails.map((detail, index) => (
+                                    <div
+                                      key={index}
+                                      className="flex items-start gap-2 sm:gap-3"
+                                    >
+                                      <div className="bg-green-100 rounded-full p-1 mt-0.5 flex-shrink-0">
+                                        <Check className="h-3 w-3 text-green-600" />
+                                      </div>
+                                      <p className="text-gray-700 leading-relaxed text-sm">
+                                        {detail}
+                                      </p>
                                     </div>
-                                    <p className="text-gray-700 leading-relaxed text-sm">
-                                      {detail}
-                                    </p>
-                                  </div>
-                                ))}
+                                  ))}
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                         </div>
 
                         {/* FOOTER - Fixed at bottom */}
@@ -1100,7 +1120,8 @@ export default function DynamicIndex() {
                           <div className="space-y-2 sm:space-y-3">
                             <Button
                               onClick={() => {
-                                const link = popup.primaryButtonLink || popup.buttonLink;
+                                const link =
+                                  popup.primaryButtonLink || popup.buttonLink;
                                 if (link) {
                                   window.open(link, "_blank");
                                 }

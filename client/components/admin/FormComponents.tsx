@@ -4,7 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Upload, X, Save, RotateCcw, Loader2, Plus, Trash2 } from "lucide-react";
+import {
+  Upload,
+  X,
+  Save,
+  RotateCcw,
+  Loader2,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadImage, deleteImage } from "@/lib/supabase-admin";
 
@@ -477,7 +485,9 @@ export function SwitchField({
   className,
 }: SwitchFieldProps) {
   return (
-    <div className={cn("flex items-center justify-between space-x-2", className)}>
+    <div
+      className={cn("flex items-center justify-between space-x-2", className)}
+    >
       <div className="space-y-0.5">
         <Label className="text-base">{label}</Label>
         {description && (
