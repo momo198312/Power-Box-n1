@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, X, Save, RotateCcw, Loader2 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Upload, X, Save, RotateCcw, Loader2, Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadImage, deleteImage } from "@/lib/supabase-admin";
 
