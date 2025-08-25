@@ -459,3 +459,102 @@ export function FormSection({
     </div>
   );
 }
+
+// Switch Field
+interface SwitchFieldProps {
+  label: string;
+  description?: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
+  className?: string;
+}
+
+export function SwitchField({
+  label,
+  description,
+  value,
+  onChange,
+  className,
+}: SwitchFieldProps) {
+  return (
+    <div className={cn("flex items-center justify-between space-x-2", className)}>
+      <div className="space-y-0.5">
+        <Label className="text-base">{label}</Label>
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
+      <Switch checked={value} onCheckedChange={onChange} />
+    </div>
+  );
+}
+
+// Array Field (for managing lists of strings)
+interface ArrayFieldProps {
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+  addButtonText?: string;
+  className?: string;
+}
+
+export function ArrayField({
+  label,
+  value,
+  onChange,
+  placeholder = "Enter text",
+  addButtonText = "Add Item",
+  className,
+}: ArrayFieldProps) {
+  const addItem = () => {
+    onChange([...value, ""]);
+  };
+
+  const updateItem = (index: number, newValue: string) => {
+    const newArray = [...value];
+    newArray[index] = newValue;
+    onChange(newArray);
+  };
+
+  const removeItem = (index: number) => {
+    const newArray = value.filter((_, i) => i !== index);
+    onChange(newArray);
+  };
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      <Label>{label}</Label>
+
+      {value.map((item, index) => (
+        <div key={index} className="flex gap-2">
+          <Input
+            value={item}
+            onChange={(e) => updateItem(index, e.target.value)}
+            placeholder={`${placeholder} ${index + 1}`}
+            className="flex-1"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => removeItem(index)}
+            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      ))}
+
+      <Button
+        type="button"
+        variant="outline"
+        onClick={addItem}
+        className="w-full"
+      >
+        <Plus className="h-4 w-4 mr-2" />
+        {addButtonText}
+      </Button>
+    </div>
+  );
+}
