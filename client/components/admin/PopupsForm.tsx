@@ -116,7 +116,7 @@ export function PopupsForm() {
   const updatePopup = (
     popupId: string,
     field: keyof PopupData,
-    value: string,
+    value: any,
   ) => {
     setPopups((prev) =>
       prev.map((popup) =>
