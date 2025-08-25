@@ -207,7 +207,7 @@ function saveToLocalStorage(data: Partial<AdminData>): void {
   }
 }
 
-// Save specific section
+// Save specific section to Supabase only (no localStorage fallback for cross-browser sync)
 export async function saveSection<K extends keyof AdminData>(
   section: K,
   data: AdminData[K],
@@ -216,31 +216,23 @@ export async function saveSection<K extends keyof AdminData>(
     const connected = await ensureConnection();
 
     if (!connected) {
-      console.warn("Supabase not connected, saving to localStorage");
-      saveToLocalStorage({ [section]: data } as Partial<AdminData>);
-      return;
+      throw new Error(`Supabase not connected - cannot save ${section} for cross-browser sync`);
     }
 
     // Save to Supabase
     const success = await saveSupabaseSection(section, data);
 
     if (!success) {
-      console.warn(
-        "Failed to save section to Supabase, falling back to localStorage",
-      );
-      saveToLocalStorage({ [section]: data } as Partial<AdminData>);
-      throw new Error("Failed to save section to Supabase");
+      throw new Error(`Failed to save ${section} to Supabase - cross-browser sync requires Supabase`);
     }
 
-    console.log(`Successfully saved ${section} to Supabase`);
+    console.log(`Successfully saved ${section} to Supabase for cross-browser sync`);
   } catch (error) {
     console.error(
       `Error saving section ${section}:`,
       error instanceof Error ? error.message : error,
     );
-    // Fallback to localStorage
-    saveToLocalStorage({ [section]: data } as Partial<AdminData>);
-    throw new Error("Failed to save section");
+    throw error; // Don't fallback to localStorage - this prevents cross-browser sync
   }
 }
 
