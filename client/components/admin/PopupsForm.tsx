@@ -220,65 +220,249 @@ export function PopupsForm() {
                   </Button>
                 </div>
 
-                <TextField
-                  label="Popup Title"
-                  value={viewDetailsPopup.title}
-                  onChange={(value) =>
-                    updatePopup(viewDetailsPopup.id, "title", value)
-                  }
-                  placeholder="Nutritious Snack Box Details"
-                  required
-                />
+                {/* Header Configuration */}
+                <FormSection
+                  title="Header Configuration"
+                  description="Configure the popup header content."
+                >
+                  <SwitchField
+                    label="Use Hero Title"
+                    description="If enabled, uses the main product title from the hero section instead of the custom title below"
+                    value={viewDetailsPopup.useHeroTitle || false}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "useHeroTitle", value)
+                    }
+                  />
 
-                <TextAreaField
-                  label="Popup Description"
-                  value={viewDetailsPopup.description}
-                  onChange={(value) =>
-                    updatePopup(viewDetailsPopup.id, "description", value)
-                  }
-                  placeholder="Get detailed information about our 42-count nutritious snack box with premium breakfast bars and delicious chips."
-                  rows={3}
-                  required
-                />
+                  <TextField
+                    label="Custom Popup Title"
+                    value={viewDetailsPopup.title}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "title", value)
+                    }
+                    placeholder="Product Details"
+                    required={!viewDetailsPopup.useHeroTitle}
+                  />
 
-                <TextField
-                  label="Button Text"
-                  value={viewDetailsPopup.buttonText}
-                  onChange={(value) =>
-                    updatePopup(viewDetailsPopup.id, "buttonText", value)
-                  }
-                  placeholder="Buy Now on Walmart"
-                  required
-                />
+                  <TextAreaField
+                    label="Popup Description"
+                    value={viewDetailsPopup.description}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "description", value)
+                    }
+                    placeholder="View detailed product information, pricing, and purchase options for this 42-piece snack collection."
+                    rows={2}
+                    required
+                  />
+                </FormSection>
 
-                <TextField
-                  label="Button Link/Action"
-                  value={viewDetailsPopup.buttonLink}
-                  onChange={(value) =>
-                    updatePopup(viewDetailsPopup.id, "buttonLink", value)
-                  }
-                  placeholder="https://www.walmart.com/ip/product-page"
-                  required
-                />
+                {/* Content Sections */}
+                <FormSection
+                  title="Content Sections"
+                  description="Choose which sections to display in the popup."
+                >
+                  <SwitchField
+                    label="Show Product Images"
+                    description="Display product images with gallery navigation"
+                    value={viewDetailsPopup.showImages || false}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "showImages", value)
+                    }
+                  />
 
-                <ImageUpload
-                  label="Popup Image (Optional)"
-                  value={viewDetailsPopup.image || ""}
-                  onChange={(value) =>
-                    updatePopup(viewDetailsPopup.id, "image", value)
-                  }
-                  placeholder="Upload an image for the popup"
-                />
+                  <SwitchField
+                    label="Show Rating"
+                    description="Display star rating and review count"
+                    value={viewDetailsPopup.showRating || false}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "showRating", value)
+                    }
+                  />
+
+                  <SwitchField
+                    label="Show Pricing"
+                    description="Display sale price, original price, and special offers"
+                    value={viewDetailsPopup.showPricing || false}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "showPricing", value)
+                    }
+                  />
+
+                  {viewDetailsPopup.showPricing && (
+                    <div className="ml-6 space-y-4 border-l-2 border-blue-200 pl-4">
+                      <TextField
+                        label="Subscribe & Save Text"
+                        value={viewDetailsPopup.subscribeText || ""}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "subscribeText", value)
+                        }
+                        placeholder="✓ Subscribe & Save available"
+                      />
+
+                      <TextField
+                        label="Walmart+ Text"
+                        value={viewDetailsPopup.walmartText || ""}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "walmartText", value)
+                        }
+                        placeholder="✓ Walmart+ offer eligible"
+                      />
+                    </div>
+                  )}
+
+                  <SwitchField
+                    label="Show Pieces Count"
+                    description="Display the number of items in the package"
+                    value={viewDetailsPopup.showPiecesCount || false}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "showPiecesCount", value)
+                    }
+                  />
+
+                  {viewDetailsPopup.showPiecesCount && (
+                    <div className="ml-6 space-y-4 border-l-2 border-blue-200 pl-4">
+                      <NumberField
+                        label="Pieces Count"
+                        value={viewDetailsPopup.piecesCount || 42}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "piecesCount", value)
+                        }
+                        min={1}
+                        placeholder="42"
+                      />
+
+                      <TextField
+                        label="Pieces Count Title"
+                        value={viewDetailsPopup.piecesCountTitle || ""}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "piecesCountTitle", value)
+                        }
+                        placeholder="Pieces Count:"
+                      />
+
+                      <TextField
+                        label="Pieces Count Subtitle"
+                        value={viewDetailsPopup.piecesCountSubtitle || ""}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "piecesCountSubtitle", value)
+                        }
+                        placeholder="Perfect variety for extended enjoyment"
+                      />
+                    </div>
+                  )}
+
+                  <SwitchField
+                    label="Show More Details"
+                    description="Display a detailed list of product features"
+                    value={viewDetailsPopup.showMoreDetails || false}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "showMoreDetails", value)
+                    }
+                  />
+
+                  {viewDetailsPopup.showMoreDetails && (
+                    <div className="ml-6 space-y-4 border-l-2 border-blue-200 pl-4">
+                      <TextField
+                        label="More Details Title"
+                        value={viewDetailsPopup.moreDetailsTitle || ""}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "moreDetailsTitle", value)
+                        }
+                        placeholder="More Details"
+                      />
+
+                      <ArrayField
+                        label="Detail Items"
+                        value={viewDetailsPopup.moreDetails || []}
+                        onChange={(value) =>
+                          updatePopup(viewDetailsPopup.id, "moreDetails", value)
+                        }
+                        placeholder="Enter detail"
+                        addButtonText="Add Detail"
+                      />
+                    </div>
+                  )}
+                </FormSection>
+
+                {/* Button Configuration */}
+                <FormSection
+                  title="Button Configuration"
+                  description="Configure the action buttons at the bottom of the popup."
+                >
+                  <TextField
+                    label="Primary Button Text"
+                    value={viewDetailsPopup.primaryButtonText || viewDetailsPopup.buttonText}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "primaryButtonText", value)
+                    }
+                    placeholder="Buy Now on Walmart"
+                    required
+                  />
+
+                  <TextField
+                    label="Primary Button Link"
+                    value={viewDetailsPopup.primaryButtonLink || viewDetailsPopup.buttonLink}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "primaryButtonLink", value)
+                    }
+                    placeholder="https://www.walmart.com/ip/product-page"
+                    required
+                  />
+
+                  <TextField
+                    label="Secondary Button Text"
+                    value={viewDetailsPopup.secondaryButtonText || ""}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "secondaryButtonText", value)
+                    }
+                    placeholder="Continue Browsing"
+                  />
+                </FormSection>
+
+                {/* Legacy Fields (for compatibility) */}
+                <FormSection
+                  title="Legacy Compatibility"
+                  description="These fields are maintained for compatibility with the simple popup fallback."
+                >
+                  <TextField
+                    label="Legacy Button Text"
+                    value={viewDetailsPopup.buttonText}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "buttonText", value)
+                    }
+                    placeholder="Buy Now on Walmart"
+                    required
+                  />
+
+                  <TextField
+                    label="Legacy Button Link"
+                    value={viewDetailsPopup.buttonLink}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "buttonLink", value)
+                    }
+                    placeholder="https://www.walmart.com/ip/product-page"
+                    required
+                  />
+
+                  <ImageUpload
+                    label="Legacy Popup Image (Optional)"
+                    value={viewDetailsPopup.image || ""}
+                    onChange={(value) =>
+                      updatePopup(viewDetailsPopup.id, "image", value)
+                    }
+                    placeholder="Upload an image for the popup"
+                  />
+                </FormSection>
 
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <div className="text-sm font-medium text-blue-900 mb-2">
-                    Usage Tips:
+                    Configuration Tips:
                   </div>
                   <ul className="text-sm text-blue-800 space-y-1">
-                    <li>• Use descriptive titles that clearly indicate product details</li>
-                    <li>• Include comprehensive product information in the description</li>
-                    <li>• Use direct product or purchase links for the button action</li>
-                    <li>• Add product images to help users visualize the items</li>
+                    <li>• Enable "Use Hero Title" to automatically use the main product title</li>
+                    <li>• Toggle content sections to match the frontend modal exactly</li>
+                    <li>• More Details section supports multiple bullet points</li>
+                    <li>• Primary button leads to purchase, secondary button closes popup</li>
                   </ul>
                 </div>
               </div>
