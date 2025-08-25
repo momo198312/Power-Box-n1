@@ -67,7 +67,6 @@ export default function DynamicIndex() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showExitIntent, setShowExitIntent] = useState(false);
-  const [showButtonPopup, setShowButtonPopup] = useState(false);
 
   const walmartUrl =
     "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419?selectedSellerId=16964&selectedOfferId=BEA9DA42A8853A4C927EECB4D702F303&clickid=3PE2sMyDBxycW1s0QQThKWW7Ukp2AmR-AQ%3AGxo0&irgwc=1&sourceid=imp_3PE2sMyDBxycW1s0QQThKWW7Ukp2AmR-AQ%3AGxo0&veh=aff&wmlspartner=imp_5610446&affiliates_ad_id=565706&campaign_id=9383&sharedid=mp_16964_2016489964_knpf1_4mtlu49_BEA9DA42A8853A4C927EECB4D702F303&utm_source=landing&utm_medium=cta&utm_campaign=snackbox";
@@ -133,9 +132,6 @@ export default function DynamicIndex() {
     setIsModalOpen(true);
   };
 
-  const handleSpecialOfferClick = () => {
-    setShowButtonPopup(true);
-  };
 
   const scrollToProduct = () => {
     document
@@ -310,15 +306,6 @@ export default function DynamicIndex() {
                   {adminData.hero.secondaryButtonText}
                 </Button>
 
-                {/* Special Offer Button */}
-                <Button
-                  onClick={handleSpecialOfferClick}
-                  variant="ghost"
-                  size="sm"
-                  className="w-full mt-2 text-sm text-blue-600 hover:text-blue-700"
-                >
-                  {adminData.hero.specialOfferButtonText}
-                </Button>
               </div>
 
               {/* Right Column - Product Image */}
@@ -933,64 +920,6 @@ export default function DynamicIndex() {
           </DialogPortal>
         </Dialog>
 
-        {/* Button Triggered Popup */}
-        {showButtonPopup && (
-          <Dialog open={showButtonPopup} onOpenChange={setShowButtonPopup}>
-            <DialogPortal>
-              <DialogOverlay />
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>
-                    {
-                      adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      )?.title
-                    }
-                  </DialogTitle>
-                  <DialogDescription>
-                    {
-                      adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      )?.description
-                    }
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  {adminData.popups.find((p) => p.type === "button-triggered")
-                    ?.image && (
-                    <img
-                      src={
-                        adminData.popups.find(
-                          (p) => p.type === "button-triggered",
-                        )?.image
-                      }
-                      alt="Special Offer"
-                      className="w-full h-32 object-cover rounded-lg"
-                    />
-                  )}
-                  <Button
-                    onClick={() => {
-                      const popup = adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      );
-                      if (popup?.buttonLink) {
-                        window.open(popup.buttonLink, "_blank");
-                      }
-                      setShowButtonPopup(false);
-                    }}
-                    className="w-full"
-                  >
-                    {
-                      adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      )?.buttonText
-                    }
-                  </Button>
-                </div>
-              </DialogContent>
-            </DialogPortal>
-          </Dialog>
-        )}
 
         {/* Sticky CTA for Mobile */}
         <StickyCTA onClick={handleCardClick} />
