@@ -41,14 +41,34 @@ export function PopupsForm() {
       if (!viewDetailsPopup) {
         requiredPopups.push({
           id: "view-details-popup",
-          title: "Nutritious Snack Box Details",
-          description:
-            "Get detailed information about our 42-count nutritious snack box with premium breakfast bars and delicious chips.",
+          title: "Product Details",
+          description: "View detailed product information, pricing, and purchase options for this 42-piece snack collection.",
           buttonText: "Buy Now on Walmart",
-          buttonLink:
-            "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+          buttonLink: "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
           image: "",
           type: "view-product-details" as const,
+          useHeroTitle: true,
+          showImages: true,
+          showRating: true,
+          showPricing: true,
+          showPiecesCount: true,
+          piecesCount: 42,
+          piecesCountTitle: "Pieces Count:",
+          piecesCountSubtitle: "Perfect variety for extended enjoyment",
+          showMoreDetails: true,
+          moreDetailsTitle: "More Details",
+          moreDetails: [
+            "Ultimate snack experience in a beautifully designed high-end packaging box",
+            "Packed with a variety of breakfast bars and savory snacks for daily energy",
+            "Individually packaged snacks for convenient grab-and-go options",
+            "Ideal for adults, teens, and college students alike",
+            "Arrives with a heartwarming greeting card for a personal touch"
+          ],
+          primaryButtonText: "Buy Now on Walmart",
+          primaryButtonLink: "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+          secondaryButtonText: "Continue Browsing",
+          subscribeText: "✓ Subscribe & Save available",
+          walmartText: "✓ Walmart+ offer eligible"
         });
       } else {
         requiredPopups.push(viewDetailsPopup);
