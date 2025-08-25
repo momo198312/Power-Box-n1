@@ -62,14 +62,17 @@ async function ensureConnection(): Promise<boolean> {
   }
 }
 
-// Get admin data with fallback to localStorage
+// Get admin data from Supabase only (no localStorage fallback for cross-browser sync)
 export async function getAdminData(): Promise<AdminData> {
   try {
     const connected = await ensureConnection();
 
     if (!connected) {
-      console.warn("Supabase not connected, using localStorage");
-      return getLocalStorageData();
+      console.error("Supabase not connected - cannot sync across browsers");
+      // Initialize Supabase with default data instead of using localStorage
+      console.log("Initializing Supabase with default data...");
+      await saveSupabaseAdminData(defaultAdminData);
+      return defaultAdminData;
     }
 
     // Try to get data from Supabase
@@ -114,19 +117,21 @@ export async function getAdminData(): Promise<AdminData> {
             supabaseData.footer?.socialLinks ||
             defaultAdminData.footer.socialLinks,
         },
+        popups: supabaseData.popups || defaultAdminData.popups,
         lastUpdated: supabaseData.lastUpdated || new Date().toISOString(),
       };
     } else {
-      // Fallback to localStorage if Supabase data not found
-      console.log("No Supabase data found, using localStorage fallback");
-      return getLocalStorageData();
+      // Initialize Supabase with default data if no data found
+      console.log("No Supabase data found, initializing with defaults");
+      await saveSupabaseAdminData(defaultAdminData);
+      return defaultAdminData;
     }
   } catch (error) {
     console.error(
       "Error fetching admin data:",
       error instanceof Error ? error.message : error,
     );
-    return getLocalStorageData();
+    throw new Error("Failed to load data from Supabase. Cross-browser sync requires Supabase connection.");
   }
 }
 
