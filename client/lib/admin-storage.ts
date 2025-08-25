@@ -97,7 +97,7 @@ export interface PopupData {
   buttonText: string;
   buttonLink: string;
   image?: string;
-  type: "button-triggered" | "exit-intent";
+  type: "view-product-details" | "exit-intent";
 }
 
 export interface AdminData {
@@ -364,16 +364,16 @@ export const defaultAdminData: AdminData = {
   },
   popups: [
     {
-      id: "button-popup",
-      title: "Special Offer!",
+      id: "view-details-popup",
+      title: "Nutritious Snack Box Details",
       description:
-        "Get 10% off your first order when you subscribe to our newsletter.",
-      buttonText: "Get My Discount",
+        "Get detailed information about our 42-count nutritious snack box with premium breakfast bars and delicious chips.",
+      buttonText: "Buy Now on Walmart",
       buttonLink:
-        "mailto:subscribe@example.com?subject=Newsletter%20Subscription",
+        "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F79d471e5bc56457eb2c3b1c3eb6586ae?format=webp&width=400",
-      type: "button-triggered",
+      type: "view-product-details",
     },
     {
       id: "exit-popup",
