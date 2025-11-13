@@ -3,7 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, X, Save, RotateCcw, Loader2 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import {
+  Upload,
+  X,
+  Save,
+  RotateCcw,
+  Loader2,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { uploadImage, deleteImage } from "@/lib/supabase-admin";
 
@@ -153,7 +162,8 @@ export function ImageUpload({
       // Generate a unique path for the image
       const fileExt = file.name.split(".").pop();
       const uniqueId = Math.random().toString(36).substring(2, 11);
-      const path = `admin_${Date.now()}_${uniqueId}`;
+      const timestamp = Date.now();
+      const path = `admin_${timestamp}_${uniqueId}`;
 
       console.log("Uploading file:", file.name, "to path:", path);
 
@@ -161,19 +171,20 @@ export function ImageUpload({
       const uploadedUrl = await uploadImage(file, path);
 
       if (uploadedUrl) {
-        console.log("Upload successful, URL:", uploadedUrl);
-        onChange(uploadedUrl);
+        // Add cache-busting parameter for cross-browser consistency
+        const urlWithCacheBusting = `${uploadedUrl}?v=${timestamp}`;
+        console.log("Upload successful, URL with cache-busting:", urlWithCacheBusting);
+        onChange(urlWithCacheBusting);
       } else {
         console.error("Upload failed: uploadImage returned null");
-        // Fallback to blob URL for local preview
-        const blobUrl = URL.createObjectURL(file);
-        onChange(blobUrl);
+        throw new Error("Image upload to Supabase failed - cross-browser sync requires cloud storage");
       }
     } catch (error) {
       console.error("Upload error:", error);
-      // Fallback to blob URL for local preview
-      const blobUrl = URL.createObjectURL(file);
-      onChange(blobUrl);
+      setIsUploading(false);
+      // Don't create blob URLs - they don't work across browsers
+      alert("Image upload failed. Please try again or check your internet connection. Cross-browser sync requires successful upload to cloud storage.");
+      return;
     } finally {
       setIsUploading(false);
     }
@@ -455,6 +466,107 @@ export function FormSection({
         )}
       </div>
       {children}
+    </div>
+  );
+}
+
+// Switch Field
+interface SwitchFieldProps {
+  label: string;
+  description?: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
+  className?: string;
+}
+
+export function SwitchField({
+  label,
+  description,
+  value,
+  onChange,
+  className,
+}: SwitchFieldProps) {
+  return (
+    <div
+      className={cn("flex items-center justify-between space-x-2", className)}
+    >
+      <div className="space-y-0.5">
+        <Label className="text-base">{label}</Label>
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
+      <Switch checked={value} onCheckedChange={onChange} />
+    </div>
+  );
+}
+
+// Array Field (for managing lists of strings)
+interface ArrayFieldProps {
+  label: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+  placeholder?: string;
+  addButtonText?: string;
+  className?: string;
+}
+
+export function ArrayField({
+  label,
+  value,
+  onChange,
+  placeholder = "Enter text",
+  addButtonText = "Add Item",
+  className,
+}: ArrayFieldProps) {
+  const addItem = () => {
+    onChange([...value, ""]);
+  };
+
+  const updateItem = (index: number, newValue: string) => {
+    const newArray = [...value];
+    newArray[index] = newValue;
+    onChange(newArray);
+  };
+
+  const removeItem = (index: number) => {
+    const newArray = value.filter((_, i) => i !== index);
+    onChange(newArray);
+  };
+
+  return (
+    <div className={cn("space-y-3", className)}>
+      <Label>{label}</Label>
+
+      {value.map((item, index) => (
+        <div key={index} className="flex gap-2">
+          <Input
+            value={item}
+            onChange={(e) => updateItem(index, e.target.value)}
+            placeholder={`${placeholder} ${index + 1}`}
+            className="flex-1"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => removeItem(index)}
+            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      ))}
+
+      <Button
+        type="button"
+        variant="outline"
+        onClick={addItem}
+        className="w-full"
+      >
+        <Plus className="h-4 w-4 mr-2" />
+        {addButtonText}
+      </Button>
     </div>
   );
 }

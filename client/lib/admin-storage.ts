@@ -18,7 +18,6 @@ export interface HeroData {
   stockText: string;
   primaryButtonText: string;
   secondaryButtonText: string;
-  specialOfferButtonText: string;
   productImages: string[];
 }
 
@@ -98,7 +97,24 @@ export interface PopupData {
   buttonText: string;
   buttonLink: string;
   image?: string;
-  type: "button-triggered" | "exit-intent";
+  type: "view-product-details" | "exit-intent";
+  // Additional fields for view-product-details popup
+  useHeroTitle?: boolean; // If true, use adminData.hero.title instead of title
+  showImages?: boolean;
+  showRating?: boolean;
+  showPricing?: boolean;
+  showPiecesCount?: boolean;
+  piecesCount?: number;
+  piecesCountTitle?: string;
+  piecesCountSubtitle?: string;
+  showMoreDetails?: boolean;
+  moreDetailsTitle?: string;
+  moreDetails?: string[];
+  primaryButtonText?: string;
+  primaryButtonLink?: string;
+  secondaryButtonText?: string;
+  subscribeText?: string;
+  walmartText?: string;
 }
 
 export interface AdminData {
@@ -140,7 +156,6 @@ export const defaultAdminData: AdminData = {
     stockText: "⚡ Limited stock available",
     primaryButtonText: "View Product Details",
     secondaryButtonText: "Learn More About This Product",
-    specialOfferButtonText: "🎁 Special Offer Available",
     productImages: [
       "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F79d471e5bc56457eb2c3b1c3eb6586ae?format=webp&width=800",
       "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F05b5599b733643de9ed02db80950feb9?format=webp&width=800",
@@ -366,16 +381,39 @@ export const defaultAdminData: AdminData = {
   },
   popups: [
     {
-      id: "button-popup",
-      title: "Special Offer!",
+      id: "view-details-popup",
+      title: "Product Details", // This will be overridden by hero title
       description:
-        "Get 10% off your first order when you subscribe to our newsletter.",
-      buttonText: "Get My Discount",
+        "View detailed product information, pricing, and purchase options for this 42-piece snack collection.",
+      buttonText: "Buy Now on Walmart",
       buttonLink:
-        "mailto:subscribe@example.com?subject=Newsletter%20Subscription",
+        "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2F84282e2d620247d2b8d8845fda2c790e%2F79d471e5bc56457eb2c3b1c3eb6586ae?format=webp&width=400",
-      type: "button-triggered",
+      type: "view-product-details",
+      useHeroTitle: true,
+      showImages: true,
+      showRating: true,
+      showPricing: true,
+      showPiecesCount: true,
+      piecesCount: 42,
+      piecesCountTitle: "Pieces Count:",
+      piecesCountSubtitle: "Perfect variety for extended enjoyment",
+      showMoreDetails: true,
+      moreDetailsTitle: "More Details",
+      moreDetails: [
+        "Ultimate snack experience in a beautifully designed high-end packaging box",
+        "Packed with a variety of breakfast bars and savory snacks for daily energy",
+        "Individually packaged snacks for convenient grab-and-go options",
+        "Ideal for adults, teens, and college students alike",
+        "Arrives with a heartwarming greeting card for a personal touch",
+      ],
+      primaryButtonText: "Buy Now on Walmart",
+      primaryButtonLink:
+        "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419",
+      secondaryButtonText: "Continue Browsing",
+      subscribeText: "✓ Subscribe & Save available",
+      walmartText: "✓ Walmart+ offer eligible",
     },
     {
       id: "exit-popup",

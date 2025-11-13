@@ -28,7 +28,6 @@ export function HeroForm() {
     stockText: "",
     primaryButtonText: "",
     secondaryButtonText: "",
-    specialOfferButtonText: "",
     productImages: [],
   });
   const [isSaving, setIsSaving] = useState(false);
@@ -219,14 +218,6 @@ export function HeroForm() {
             placeholder="Learn More About This Product"
             required
           />
-
-          <TextField
-            label="Special Offer Button Text"
-            value={heroData.specialOfferButtonText}
-            onChange={(value) => updateField("specialOfferButtonText", value)}
-            placeholder="🎁 Special Offer Available"
-            required
-          />
         </div>
       </FormSection>
 
@@ -346,9 +337,6 @@ export function HeroForm() {
               </div>
               <div className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-center font-semibold">
                 {heroData.secondaryButtonText || "Secondary Button"}
-              </div>
-              <div className="text-blue-600 text-sm text-center font-medium">
-                {heroData.specialOfferButtonText || "Special Offer Button"}
               </div>
             </div>
 

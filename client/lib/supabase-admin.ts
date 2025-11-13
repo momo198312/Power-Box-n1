@@ -22,7 +22,7 @@ export async function checkSupabaseConnection(): Promise<boolean> {
   }
 }
 
-// Upload image to Supabase Storage
+// Upload image to Supabase Storage with improved error handling
 export async function uploadImage(
   file: File,
   path: string,
@@ -37,39 +37,66 @@ export async function uploadImage(
       file.type,
     );
 
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${path}.${fileExt}`;
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      throw new Error("File must be an image");
+    }
 
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error("File size must be less than 5MB");
+    }
+
+    const fileExt = file.name.split(".").pop()?.toLowerCase();
+    if (!fileExt || !["jpg", "jpeg", "png", "gif", "webp"].includes(fileExt)) {
+      throw new Error("Unsupported file format. Use JPG, PNG, GIF, or WebP");
+    }
+
+    const fileName = `${path}.${fileExt}`;
     console.log("Generated filename:", fileName);
 
+    // Try to upload with upsert to replace existing files
     const { data, error } = await supabase.storage
       .from("images")
       .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: false,
+        cacheControl: "public, max-age=3600", // 1 hour cache
+        upsert: true, // Replace existing files
       });
 
     if (error) {
       console.error("Supabase upload error:", error);
       console.error("Error details:", {
         message: error.message,
+        statusCode: error.statusCode,
         error: error,
       });
-      return null;
+
+      // Provide specific error messages
+      if (error.message.includes("The resource already exists")) {
+        // Try with a different filename
+        const uniqueFileName = `${path}_${Date.now()}.${fileExt}`;
+        return uploadImage(file, uniqueFileName.replace(`.${fileExt}`, ""));
+      }
+
+      throw new Error(`Upload failed: ${error.message}`);
     }
 
     console.log("Upload successful, data:", data);
 
-    // Get public URL
+    // Get public URL with cache busting
     const { data: urlData } = supabase.storage
       .from("images")
       .getPublicUrl(data.path);
+
+    if (!urlData.publicUrl) {
+      throw new Error("Failed to generate public URL");
+    }
 
     console.log("Generated public URL:", urlData.publicUrl);
     return urlData.publicUrl;
   } catch (error) {
     console.error("Upload failed with exception:", error);
-    return null;
+    throw error; // Re-throw to allow proper error handling
   }
 }
 

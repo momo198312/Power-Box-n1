@@ -62,14 +62,17 @@ async function ensureConnection(): Promise<boolean> {
   }
 }
 
-// Get admin data with fallback to localStorage
+// Get admin data from Supabase only (no localStorage fallback for cross-browser sync)
 export async function getAdminData(): Promise<AdminData> {
   try {
     const connected = await ensureConnection();
 
     if (!connected) {
-      console.warn("Supabase not connected, using localStorage");
-      return getLocalStorageData();
+      console.error("Supabase not connected - cannot sync across browsers");
+      // Initialize Supabase with default data instead of using localStorage
+      console.log("Initializing Supabase with default data...");
+      await saveSupabaseAdminData(defaultAdminData);
+      return defaultAdminData;
     }
 
     // Try to get data from Supabase
@@ -114,19 +117,21 @@ export async function getAdminData(): Promise<AdminData> {
             supabaseData.footer?.socialLinks ||
             defaultAdminData.footer.socialLinks,
         },
+        popups: supabaseData.popups || defaultAdminData.popups,
         lastUpdated: supabaseData.lastUpdated || new Date().toISOString(),
       };
     } else {
-      // Fallback to localStorage if Supabase data not found
-      console.log("No Supabase data found, using localStorage fallback");
-      return getLocalStorageData();
+      // Initialize Supabase with default data if no data found
+      console.log("No Supabase data found, initializing with defaults");
+      await saveSupabaseAdminData(defaultAdminData);
+      return defaultAdminData;
     }
   } catch (error) {
     console.error(
       "Error fetching admin data:",
       error instanceof Error ? error.message : error,
     );
-    return getLocalStorageData();
+    throw new Error("Failed to load data from Supabase. Cross-browser sync requires Supabase connection.");
   }
 }
 
@@ -158,35 +163,29 @@ function getLocalStorageData(): AdminData {
   return defaultAdminData;
 }
 
-// Save admin data with fallback to localStorage
+// Save admin data to Supabase only (no localStorage fallback for cross-browser sync)
 export async function saveAdminData(data: Partial<AdminData>): Promise<void> {
   try {
     const connected = await ensureConnection();
 
     if (!connected) {
-      console.warn("Supabase not connected, saving to localStorage");
-      saveToLocalStorage(data);
-      return;
+      throw new Error("Supabase not connected - cannot save data for cross-browser sync");
     }
 
     // Save to Supabase
     const success = await saveSupabaseAdminData(data);
 
     if (!success) {
-      console.warn("Failed to save to Supabase, falling back to localStorage");
-      saveToLocalStorage(data);
-      throw new Error("Failed to save to Supabase");
+      throw new Error("Failed to save to Supabase - cross-browser sync requires Supabase");
     }
 
-    console.log("Successfully saved data to Supabase");
+    console.log("Successfully saved data to Supabase for cross-browser sync");
   } catch (error) {
     console.error(
       "Error saving admin data:",
       error instanceof Error ? error.message : error,
     );
-    // Fallback to localStorage
-    saveToLocalStorage(data);
-    throw new Error("Failed to save data");
+    throw error; // Don't fallback to localStorage - this prevents cross-browser sync
   }
 }
 
@@ -208,7 +207,7 @@ function saveToLocalStorage(data: Partial<AdminData>): void {
   }
 }
 
-// Save specific section
+// Save specific section to Supabase only (no localStorage fallback for cross-browser sync)
 export async function saveSection<K extends keyof AdminData>(
   section: K,
   data: AdminData[K],
@@ -217,31 +216,23 @@ export async function saveSection<K extends keyof AdminData>(
     const connected = await ensureConnection();
 
     if (!connected) {
-      console.warn("Supabase not connected, saving to localStorage");
-      saveToLocalStorage({ [section]: data } as Partial<AdminData>);
-      return;
+      throw new Error(`Supabase not connected - cannot save ${section} for cross-browser sync`);
     }
 
     // Save to Supabase
     const success = await saveSupabaseSection(section, data);
 
     if (!success) {
-      console.warn(
-        "Failed to save section to Supabase, falling back to localStorage",
-      );
-      saveToLocalStorage({ [section]: data } as Partial<AdminData>);
-      throw new Error("Failed to save section to Supabase");
+      throw new Error(`Failed to save ${section} to Supabase - cross-browser sync requires Supabase`);
     }
 
-    console.log(`Successfully saved ${section} to Supabase`);
+    console.log(`Successfully saved ${section} to Supabase for cross-browser sync`);
   } catch (error) {
     console.error(
       `Error saving section ${section}:`,
       error instanceof Error ? error.message : error,
     );
-    // Fallback to localStorage
-    saveToLocalStorage({ [section]: data } as Partial<AdminData>);
-    throw new Error("Failed to save section");
+    throw error; // Don't fallback to localStorage - this prevents cross-browser sync
   }
 }
 

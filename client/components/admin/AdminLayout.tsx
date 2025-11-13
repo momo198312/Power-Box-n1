@@ -76,7 +76,7 @@ const sidebarItems = [
     id: "popups",
     label: "Popups",
     icon: Megaphone,
-    description: "Button-triggered and exit-intent popups",
+    description: "View product details and exit-intent popups",
   },
 ];
 

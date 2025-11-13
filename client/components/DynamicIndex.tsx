@@ -67,7 +67,7 @@ export default function DynamicIndex() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showExitIntent, setShowExitIntent] = useState(false);
-  const [showButtonPopup, setShowButtonPopup] = useState(false);
+  const [showViewDetailsPopup, setShowViewDetailsPopup] = useState(false);
 
   const walmartUrl =
     "https://www.walmart.com/ip/Healthy-Snack-Box-Tasty-Nutrient-Rich-Variety-42-Count-by-Gift-A-Snack/14479818419?selectedSellerId=16964&selectedOfferId=BEA9DA42A8853A4C927EECB4D702F303&clickid=3PE2sMyDBxycW1s0QQThKWW7Ukp2AmR-AQ%3AGxo0&irgwc=1&sourceid=imp_3PE2sMyDBxycW1s0QQThKWW7Ukp2AmR-AQ%3AGxo0&veh=aff&wmlspartner=imp_5610446&affiliates_ad_id=565706&campaign_id=9383&sharedid=mp_16964_2016489964_knpf1_4mtlu49_BEA9DA42A8853A4C927EECB4D702F303&utm_source=landing&utm_medium=cta&utm_campaign=snackbox";
@@ -133,8 +133,9 @@ export default function DynamicIndex() {
     setIsModalOpen(true);
   };
 
-  const handleSpecialOfferClick = () => {
-    setShowButtonPopup(true);
+  const handleViewDetailsClick = () => {
+    console.log("View details clicked - opening popup");
+    setShowViewDetailsPopup(true);
   };
 
   const scrollToProduct = () => {
@@ -293,7 +294,7 @@ export default function DynamicIndex() {
 
                 {/* Primary CTA */}
                 <Button
-                  onClick={handleCardClick}
+                  onClick={handleViewDetailsClick}
                   size="lg"
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 sm:py-4 text-lg sm:text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 mb-3 sm:mb-4 touch-manipulation"
                 >
@@ -308,16 +309,6 @@ export default function DynamicIndex() {
                   className="w-full py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-2xl border-2 border-blue-600 text-blue-600 hover:bg-blue-50 touch-manipulation"
                 >
                   {adminData.hero.secondaryButtonText}
-                </Button>
-
-                {/* Special Offer Button */}
-                <Button
-                  onClick={handleSpecialOfferClick}
-                  variant="ghost"
-                  size="sm"
-                  className="w-full mt-2 text-sm text-blue-600 hover:text-blue-700"
-                >
-                  {adminData.hero.specialOfferButtonText}
                 </Button>
               </div>
 
@@ -421,7 +412,7 @@ export default function DynamicIndex() {
             {/* CTA after Benefits */}
             <div className="text-center mt-8 sm:mt-12">
               <Button
-                onClick={handleCardClick}
+                onClick={handleViewDetailsClick}
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
               >
@@ -497,7 +488,7 @@ export default function DynamicIndex() {
               {/* CTA after Trust */}
               <div className="text-center mt-8">
                 <Button
-                  onClick={handleCardClick}
+                  onClick={handleViewDetailsClick}
                   size="lg"
                   className="bg-white text-blue-600 hover:bg-gray-50 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
                 >
@@ -547,7 +538,7 @@ export default function DynamicIndex() {
             {/* CTA after Gallery */}
             <div className="text-center mt-8 sm:mt-12">
               <Button
-                onClick={handleCardClick}
+                onClick={handleViewDetailsClick}
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
               >
@@ -662,7 +653,7 @@ export default function DynamicIndex() {
 
                 {/* Enhanced CTA Button */}
                 <Button
-                  onClick={handleCardClick}
+                  onClick={handleViewDetailsClick}
                   size="lg"
                   className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-6 text-xl font-bold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 touch-manipulation mb-6"
                 >
@@ -933,67 +924,236 @@ export default function DynamicIndex() {
           </DialogPortal>
         </Dialog>
 
-        {/* Button Triggered Popup */}
-        {showButtonPopup && (
-          <Dialog open={showButtonPopup} onOpenChange={setShowButtonPopup}>
+        {/* Sticky CTA for Mobile */}
+        <StickyCTA onClick={handleCardClick} />
+
+        {/* View Product Details Popup - Identical to Modal */}
+        {showViewDetailsPopup && (
+          <Dialog
+            open={showViewDetailsPopup}
+            onOpenChange={setShowViewDetailsPopup}
+          >
             <DialogPortal>
               <DialogOverlay />
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>
-                    {
-                      adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      )?.title
-                    }
-                  </DialogTitle>
-                  <DialogDescription>
-                    {
-                      adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      )?.description
-                    }
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  {adminData.popups.find((p) => p.type === "button-triggered")
-                    ?.image && (
-                    <img
-                      src={
-                        adminData.popups.find(
-                          (p) => p.type === "button-triggered",
-                        )?.image
-                      }
-                      alt="Special Offer"
-                      className="w-full h-32 object-cover rounded-lg"
-                    />
-                  )}
-                  <Button
-                    onClick={() => {
-                      const popup = adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      );
-                      if (popup?.buttonLink) {
-                        window.open(popup.buttonLink, "_blank");
-                      }
-                      setShowButtonPopup(false);
-                    }}
-                    className="w-full"
-                  >
-                    {
-                      adminData.popups.find(
-                        (p) => p.type === "button-triggered",
-                      )?.buttonText
-                    }
-                  </Button>
-                </div>
-              </DialogContent>
+              <DialogPrimitive.Content className="fixed inset-4 z-[1001] mx-auto my-auto w-auto h-auto max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)] sm:inset-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-[640px] sm:h-[90vh] sm:max-h-[800px] sm:translate-x-[-50%] sm:translate-y-[-50%] bg-white border-0 rounded-2xl sm:rounded-2xl shadow-2xl p-0 overflow-hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-200">
+                <DialogPrimitive.Close className="absolute right-3 top-3 z-50 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors shadow-md sm:hidden">
+                  <X className="h-5 w-5 text-gray-600" />
+                  <span className="sr-only">Close</span>
+                </DialogPrimitive.Close>
+                <motion.div
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.95, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="h-full flex flex-col"
+                >
+                  {(() => {
+                    const popup = adminData.popups.find(
+                      (p) => p.type === "view-product-details",
+                    );
+                    if (!popup) return null;
+
+                    return (
+                      <>
+                        {/* HEADER - Fixed at top */}
+                        <div className="relative flex-shrink-0 bg-white border-b border-gray-200 p-3 sm:p-6">
+                          <DialogHeader>
+                            <DialogTitle className="text-lg sm:text-2xl font-bold text-gray-900 leading-tight pr-10 sm:pr-12">
+                              {popup.useHeroTitle
+                                ? adminData.hero.title
+                                : popup.title}
+                            </DialogTitle>
+                            <DialogDescription className="text-sm sm:text-sm text-gray-600 mt-2 pr-8 sm:pr-0">
+                              {popup.description}
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          {/* Close Button - Desktop only */}
+                          <button
+                            onClick={() => setShowViewDetailsPopup(false)}
+                            className="hidden sm:block absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10 shadow-sm"
+                            aria-label="Close popup"
+                          >
+                            <X className="h-6 w-6" />
+                          </button>
+                        </div>
+
+                        {/* BODY - Scrollable content */}
+                        <div
+                          className="flex-1 overflow-y-auto px-3 py-4 sm:p-6"
+                          style={{
+                            maxHeight: "calc(100vh - 180px - 140px)",
+                            WebkitOverflowScrolling: "touch",
+                          }}
+                        >
+                          {/* Product Images */}
+                          {popup.showImages && (
+                            <div className="relative mb-4 sm:mb-6">
+                              <div className="relative overflow-hidden rounded-xl shadow-lg bg-gray-50 mx-auto max-w-[280px] sm:max-w-none">
+                                {adminData.hero.productImages[
+                                  currentImageIndex
+                                ] && (
+                                  <img
+                                    src={
+                                      adminData.hero.productImages[
+                                        currentImageIndex
+                                      ]
+                                    }
+                                    alt={
+                                      popup.useHeroTitle
+                                        ? adminData.hero.title
+                                        : popup.title
+                                    }
+                                    className="w-full h-40 sm:h-64 object-contain"
+                                    loading="lazy"
+                                  />
+                                )}
+                              </div>
+
+                              {adminData.hero.productImages.length > 1 && (
+                                <>
+                                  <button
+                                    onClick={prevImage}
+                                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-2 shadow-md hover:bg-white touch-manipulation"
+                                    aria-label="Previous image"
+                                  >
+                                    <ChevronLeft className="h-4 w-4" />
+                                  </button>
+                                  <button
+                                    onClick={nextImage}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-2 shadow-md hover:bg-white touch-manipulation"
+                                  >
+                                    <ChevronRight className="h-4 w-4" />
+                                  </button>
+                                </>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Rating */}
+                          {popup.showRating && (
+                            <div className="flex items-center justify-center sm:justify-start mb-4">
+                              <div className="flex">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`h-4 w-4 sm:h-4 sm:w-4 ${i < Math.floor(adminData.hero.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+                                  />
+                                ))}
+                              </div>
+                              <span className="ml-2 text-sm sm:text-sm text-gray-700 font-medium">
+                                {adminData.hero.rating} ⭐ (
+                                {adminData.hero.reviewCount} reviews)
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Pricing Section */}
+                          {popup.showPricing && (
+                            <div className="mb-4 p-3 sm:p-4 bg-blue-50 rounded-xl border border-blue-200">
+                              <PricingDisplay
+                                salePrice={adminData.hero.salePrice}
+                                size="lg"
+                                className="mb-2"
+                              />
+                              {popup.subscribeText && (
+                                <div className="text-sm text-green-600 font-medium">
+                                  {popup.subscribeText}
+                                </div>
+                              )}
+                              {popup.walmartText && (
+                                <div className="text-sm text-blue-600 font-medium">
+                                  {popup.walmartText}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Pieces Count */}
+                          {popup.showPiecesCount && (
+                            <div className="mb-4 p-3 sm:p-4 bg-gray-50 rounded-xl">
+                              <div className="flex items-center justify-center sm:justify-start gap-2">
+                                <span className="font-semibold text-gray-900 text-sm sm:text-base">
+                                  {popup.piecesCountTitle || "Pieces Count:"}
+                                </span>
+                                <span className="text-lg font-bold text-blue-600">
+                                  {popup.piecesCount || 42} Items
+                                </span>
+                              </div>
+                              {popup.piecesCountSubtitle && (
+                                <p className="text-sm text-gray-600 mt-1 text-center sm:text-left">
+                                  {popup.piecesCountSubtitle}
+                                </p>
+                              )}
+                            </div>
+                          )}
+
+                          {/* More Details Section */}
+                          {popup.showMoreDetails &&
+                            popup.moreDetails &&
+                            popup.moreDetails.length > 0 && (
+                              <div className="mb-4 sm:mb-6">
+                                <h3 className="text-lg font-bold text-gray-900 mb-3 text-center sm:text-left">
+                                  {popup.moreDetailsTitle || "More Details"}
+                                </h3>
+                                <div className="space-y-2">
+                                  {popup.moreDetails.map((detail, index) => (
+                                    <div
+                                      key={index}
+                                      className="flex items-start gap-2 sm:gap-3"
+                                    >
+                                      <div className="bg-green-100 rounded-full p-1 mt-0.5 flex-shrink-0">
+                                        <Check className="h-3 w-3 text-green-600" />
+                                      </div>
+                                      <p className="text-gray-700 leading-relaxed text-sm">
+                                        {detail}
+                                      </p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                        </div>
+
+                        {/* FOOTER - Fixed at bottom */}
+                        <div className="flex-shrink-0 bg-white border-t border-gray-200 p-3 sm:p-6 sticky bottom-0 z-10 shadow-lg sm:shadow-none">
+                          <div className="space-y-2 sm:space-y-3">
+                            <Button
+                              onClick={() => {
+                                const link =
+                                  popup.primaryButtonLink || popup.buttonLink;
+                                if (link) {
+                                  window.open(link, "_blank");
+                                }
+                                setShowViewDetailsPopup(false);
+                              }}
+                              size="lg"
+                              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 sm:py-4 text-base sm:text-lg font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 touch-manipulation"
+                            >
+                              {popup.primaryButtonText || popup.buttonText}
+                              <ShoppingCart className="ml-2 h-5 w-5" />
+                            </Button>
+
+                            {popup.secondaryButtonText && (
+                              <Button
+                                onClick={() => setShowViewDetailsPopup(false)}
+                                variant="outline"
+                                size="lg"
+                                className="w-full py-2 sm:py-3 text-sm sm:text-base font-semibold rounded-xl touch-manipulation border-2"
+                              >
+                                {popup.secondaryButtonText}
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
+                </motion.div>
+              </DialogPrimitive.Content>
             </DialogPortal>
           </Dialog>
         )}
-
-        {/* Sticky CTA for Mobile */}
-        <StickyCTA onClick={handleCardClick} />
 
         {/* Exit Intent Popup */}
         {showExitIntent && (
